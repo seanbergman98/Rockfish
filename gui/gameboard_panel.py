@@ -19,19 +19,19 @@ CANDIDATE_CIRCLE_RADIUS = 8
 TILE_DIMENSION = 60
 BOARD_DIMENSION = TILE_DIMENSION * 8
 
-WHITE_PAWN = 'C:/Users/seanb/Documents/Rockfish/art/Chess_plt60.png'
-WHITE_ROOK = 'C:/Users/seanb/Documents/Rockfish/art/Chess_rlt60.png'
-WHITE_KNIGHT = 'C:/Users/seanb/Documents/Rockfish/art/Chess_nlt60.png'
-WHITE_BISHOP = 'C:/Users/seanb/Documents/Rockfish/art/Chess_blt60.png'
-WHITE_QUEEN = 'C:/Users/seanb/Documents/Rockfish/art/Chess_qlt60.png'
-WHITE_KING = 'C:/Users/seanb/Documents/Rockfish/art/Chess_klt60.png'
+WHITE_PAWN = 'art/Chess_plt60.png'
+WHITE_ROOK = 'art/Chess_rlt60.png'
+WHITE_KNIGHT = 'art/Chess_nlt60.png'
+WHITE_BISHOP = 'art/Chess_blt60.png'
+WHITE_QUEEN = 'art/Chess_qlt60.png'
+WHITE_KING = 'art/Chess_klt60.png'
 
-BLACK_PAWN = 'C:/Users/seanb/Documents/Rockfish/art/Chess_pdt60.png'
-BLACK_ROOK = 'C:/Users/seanb/Documents/Rockfish/art/Chess_rdt60.png'
-BLACK_KNIGHT = 'C:/Users/seanb/Documents/Rockfish/art/Chess_ndt60.png'
-BLACK_BISHOP = 'C:/Users/seanb/Documents/Rockfish/art/Chess_bdt60.png'
-BLACK_QUEEN = 'C:/Users/seanb/Documents/Rockfish/art/Chess_qdt60.png'
-BLACK_KING = 'C:/Users/seanb/Documents/Rockfish/art/Chess_kdt60.png'
+BLACK_PAWN = 'art/Chess_pdt60.png'
+BLACK_ROOK = 'art/Chess_rdt60.png'
+BLACK_KNIGHT = 'art/Chess_ndt60.png'
+BLACK_BISHOP = 'art/Chess_bdt60.png'
+BLACK_QUEEN = 'art/Chess_qdt60.png'
+BLACK_KING = 'art/Chess_kdt60.png'
 
 
 def get_coordinates(position, orientation):
