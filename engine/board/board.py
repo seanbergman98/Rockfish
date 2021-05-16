@@ -1,5 +1,8 @@
+from typing import List
+
 from engine.board.board_utils import NUM_TILES, NUM_TILES_PER_ROW
 from engine.board.tile import Tile, EmptyTile, OccupiedTile
+from engine.board.move import Move
 from engine.pieces.bishop import Bishop
 from engine.pieces.king import King
 from engine.pieces.knight import Knight
@@ -16,92 +19,20 @@ class Board:
     def __init__(self):
         self.board_tiles = [None] * NUM_TILES
 
-    def get_active_pieces(self):
+    def get_active_pieces(self) -> List[Piece]:
         return self.white_pieces if self.color_to_move == 'white' else self.black_pieces
 
-    def get_opponent_pieces(self):
+    def get_opponent_pieces(self) -> List[Piece]:
         return self.white_pieces if self.color_to_move == 'black' else self.black_pieces
 
-    def get_legal_moves(self, piece):
-        legal_moves = []
-
-        if piece.is_pawn():
-            pass
-        elif piece.is_rook():
-            pass
-        elif piece.is_knight():
-            move_offsets = Knight.CANDIDATE_MOVE_OFFSETS.copy()
-
-            if self.is_in_first_column():
-                move_offsets.remove(-10)
-                move_offsets.remove(-17)
-                move_offsets.remove(6)
-                move_offsets.remove(15)
-            elif self.is_in_second_column():
-                move_offsets.remove(-10)
-                move_offsets.remove(6)
-            elif self.is_in_seventh_column():
-                move_offsets.remove(-6)
-                move_offsets.remove(10)
-            elif self.is_in_eighth_column():
-                move_offsets.remove(-15)
-                move_offsets.remove(-6)
-                move_offsets.remove(10)
-                move_offsets.remove(17)
-
-            if self.is_in_first_row():
-                move_offsets.remove(-17)
-                move_offsets.remove(-15)
-                move_offsets.remove(-10)
-                move_offsets.remove(-6)
-            elif self.is_in_second_row():
-                move_offsets.remove(-17)
-                move_offsets.remove(-15)
-            elif self.is_in_seventh_row():
-                move_offsets.remove(15)
-                move_offsets.remove(17)
-            elif self.is_in_eighth_row():
-                move_offsets.remove(6)
-                move_offsets.remove(10)
-                move_offsets.remove(15)
-                move_offsets.remove(17)
-
-            moves = []
-            destinations = map(lambda x: piece.get_position() + x, move_offsets)
-
-            #Create the moves
-            for destination in destinations:
-                destination_tile = self.get_tile(destination)
-                if destination_tile.is_tile_occupied():
-                    attacked_piece = destination_tile.get_piece()
-                    move = mv.AttackingMove(self, piece, destination, attacked_piece)
-                else:
-                    move = mv.Move(self, piece, destination)
-                moves.append(move)
-
-        elif piece.is_bishop():
-            pass
-        elif piece.is_queen():
-            pass
-        elif piece.is_king():
-            pass
-
-        for move in moves:
-            resulting_board = move.execute()
-            if not resulting_board.leaves_player_in_check():
-                legal_moves.append(move)
-
-        return legal_moves
-
-
-    def get_all_legal_moves(self):
+    def get_all_legal_moves(self) -> List[Move]:
         all_legal_moves = []
         for piece in self.get_active_pieces():
             for move in self.get_legal_moves(piece):
                 all_legal_moves.append(move)
         return all_legal_moves
 
-    def get_all_opponent_legal_moves(self):
+    def get_all_opponent_legal_moves(self) -> List[Move]:
         opponent_legal_moves = []
         for piece in self.get_opponent_pieces():
             for move in self.get_legal_moves(piece):
@@ -132,7 +63,7 @@ class Board:
         else:
             return True
 
-    def get_tile(self, position):
+    def get_tile(self, position) -> Tile:
         return self.board_tiles[position]
 
     @staticmethod

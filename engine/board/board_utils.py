@@ -1,4 +1,12 @@
 def init_row(row_num):
+    """
+    Creates a boolean array representing a given row of a chessboard.
+
+    :param row_num: The row number which we want to represent (note that rows run horizontally on a chessboard)
+    :return: A boolean array with values True for indices corresponding to tiles on the given row and False for all
+    other indices
+    """
+
     board_tiles = [False] * NUM_TILES
 
     for i in range(NUM_TILES_PER_ROW):
@@ -8,6 +16,14 @@ def init_row(row_num):
 
 
 def init_column(column_num):
+    """
+    Creates a boolean array representing a given column of a chessboard.
+
+    :param column_num: The column number which we want to represent (note that columns run horizontally on a chessboard)
+    :return: A boolean array with values True for indices corresponding to tiles on the given column and False for all
+    other indices
+    """
+
     board_tiles = [False] * NUM_TILES
 
     for i in range(NUM_TILES_PER_ROW):

@@ -1,7 +1,14 @@
-from abc import ABC
+from abc import ABC, abstractmethod
+from typing import List
+
+from engine.board.board_utils import FIRST_ROW, SECOND_ROW, SEVENTH_ROW, EIGHTH_ROW, FIRST_COLUMN, SECOND_COLUMN, \
+    SEVENTH_COLUMN, EIGHTH_COLUMN
+from engine.board.move import Move
+from engine.board.board import Board
 
 
 class Piece(ABC):
+    # TODO: Placeholder piece value for king since this piece is invaluable
     PIECE_VALUES = {
         'pawn': 100,
         'knight': 300,
@@ -75,7 +82,7 @@ class Piece(ABC):
         return True if SECOND_ROW[self.position] else False
 
     def is_in_seventh_row(self):
-        return True if THIRD_ROW[self.position] else False
+        return True if SEVENTH_ROW[self.position] else False
 
     def is_in_eighth_row(self):
         return True if EIGHTH_ROW[self.position] else False
@@ -87,7 +94,11 @@ class Piece(ABC):
         return True if SECOND_COLUMN[self.position] else False
 
     def is_in_seventh_column(self):
-        return True if THIRD_COLUMN[self.position] else False
+        return True if SEVENTH_COLUMN[self.position] else False
 
     def is_in_eighth_column(self):
         return True if EIGHTH_COLUMN[self.position] else False
+
+    @abstractmethod
+    def calculate_legal_moves(self, board: Board) -> List[Move]:
+        pass

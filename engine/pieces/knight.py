@@ -1,4 +1,8 @@
 from engine.pieces.piece import Piece
+from engine.board.move import Move, AttackingMove
+from engine.board.board import Board, Builder
+from engine.board.board_utils import FIRST_ROW, SECOND_ROW, SEVENTH_ROW, EIGHTH_ROW, FIRST_COLUMN, SECOND_COLUMN, \
+    SEVENTH_COLUMN, EIGHTH_COLUMN
 
 
 class Knight(Piece):
@@ -7,50 +11,85 @@ class Knight(Piece):
     def __init__(self, color, position, is_first_move):
         super().__init__('knight', color, position, is_first_move)
 
-'''''''''
-    def calculate_candidate_moves(self, board):
-        candidate_moves = []
-        candidate_move_offsets = Knight.CANDIDATE_MOVE_OFFSETS.copy()
+    def calculate_legal_moves(self, board):
+        legal_moves = []
 
-        if self.__is_in_first_column():
-            candidate_move_offsets.remove(-10)
-            candidate_move_offsets.remove(-17)
-            candidate_move_offsets.remove(6)
-            candidate_move_offsets.remove(15)
-        elif self.__is_in_second_column():
-            candidate_move_offsets.remove(-10)
-            candidate_move_offsets.remove(6)
-        elif self.__is_in_seventh_column():
-            candidate_move_offsets.remove(-6)
-            candidate_move_offsets.remove(10)
-        elif self.__is_in_eighth_column():
-            candidate_move_offsets.remove(-15)
-            candidate_move_offsets.remove(-6)
-            candidate_move_offsets.remove(10)
-            candidate_move_offsets.remove(17)
+        for offset in Knight.CANDIDATE_MOVE_OFFSETS:
+            if Knight._is_first_column_exclusion(self.position, offset) or \
+                    Knight._is_second_column_exclusion(self.position, offset) or \
+                    Knight._is_seventh_column_exclusion(self.position, offset) or \
+                    Knight._is_eighth_column_exclusion(self.position, offset) or \
+                    Knight._is_first_row_exclusion(self.position, offset) or \
+                    Knight._is_second_row_exclusion(self.position, offset) or \
+                    Knight._is_seventh_row_exclusion(self.position, offset) or \
+                    Knight._is_eighth_row_exclusion(self.position, offset):
+                continue
 
-        if self.__is_in_first_row():
-            candidate_move_offsets.remove(-17)
-            candidate_move_offsets.remove(-15)
-            candidate_move_offsets.remove(-10)
-            candidate_move_offsets.remove(-6)
-        elif self.__is_in_second_row():
-            candidate_move_offsets.remove(-17)
-            candidate_move_offsets.remove(-15)
-        elif self.__is_in_seventh_row():
-            candidate_move_offsets.remove(15)
-            candidate_move_offsets.remove(17)
-        elif self.__is_in_eighth_row():
-            candidate_move_offsets.remove(6)
-            candidate_move_offsets.remove(10)
-            candidate_move_offsets.remove(15)
-            candidate_move_offsets.remove(17)
-
-        for vector in candidate_move_offsets:
-            destination = self.position + vector
+            destination = self.position + offset
             destination_tile = board.get_tile(destination)
             if not destination_tile.is_tile_occupied():
-                candidate_moves.append(Move(board, self, destination))
+                candidate_move = Move(board, self, destination)
             elif destination_tile.is_tile_occupied() and destination_tile.get_piece().get_color() != self.color:
-                candidate_moves.append(AttackingMove(board, self, destination, destination_tile.get_piece()))
-'''''''''
+                candidate_move = AttackingMove(board, self, destination, destination_tile.get_piece())
+            else:
+                candidate_move = None
+
+            if candidate_move is not None:
+                if not candidate_move.execute().leaves_player_in_check():
+                    legal_moves.append(candidate_move)
+
+    @staticmethod
+    def _is_first_column_exclusion(position, offset):
+        if FIRST_COLUMN[position]:
+            if offset in [-17, -10, 6, 15]:
+                return True
+        return False
+
+    @staticmethod
+    def _is_second_column_exclusion(position, offset):
+        if SECOND_COLUMN[position]:
+            if offset in [-10, 6]:
+                return True
+        return False
+
+    @staticmethod
+    def _is_seventh_column_exclusion(position, offset):
+        if SEVENTH_COLUMN[position]:
+            if offset in [-6, 10]:
+                return True
+        return False
+
+    @staticmethod
+    def _is_eighth_column_exclusion(position, offset):
+        if EIGHTH_COLUMN[position]:
+            if offset in [-15, -6, 10, 17]:
+                return True
+        return False
+
+    @staticmethod
+    def _is_first_row_exclusion(position, offset):
+        if FIRST_ROW[position]:
+            if offset in [-17, -15, -10, -6]:
+                return True
+        return False
+
+    @staticmethod
+    def _is_second_row_exclusion(position, offset):
+        if SECOND_ROW[position]:
+            if offset in [-17, -15]:
+                return True
+        return False
+
+    @staticmethod
+    def _is_seventh_row_exclusion(position, offset):
+        if SEVENTH_ROW[position]:
+            if offset in [15, 17]:
+                return True
+        return False
+
+    @staticmethod
+    def _is_eighth_row_exclusion(position, offset):
+        if EIGHTH_ROW[position]:
+            if offset in [6, 10, 15, 17]:
+                return True
+        return False

@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 
+from engine.pieces.piece import Piece
+
 
 class Tile(ABC):
 
@@ -36,7 +38,7 @@ class OccupiedTile(Tile):
         super().__init__(position)
         self.piece = piece
 
-    def get_piece(self):
+    def get_piece(self) -> Piece:
         return self.piece
 
     def is_tile_occupied(self):

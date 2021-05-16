@@ -56,7 +56,8 @@ class GameBoardPanel(Frame):
         self.board = board
 
         if self.selected_piece is not None:
-            self.legal_move_destinations = map(lambda x: x.get_destination(), self.selected_piece.get_legal_moves(self.board))
+            self.legal_move_destinations = map(lambda x: x.get_destination(),
+                                               self.selected_piece.calculate_legal_moves(self.board))
         else:
             self.legal_move_destinations = []
 
@@ -215,7 +216,8 @@ class TilePanel(Canvas):
                                                                   selected_piece=self.piece, last_move=self.last_move)
                 self.game_window.gameboard_panel.pack()
 
-            elif self.position in map(lambda x: x.get_destination(), self.selected_piece.get_legal_moves(self.board)):
+            elif self.position in map(lambda x: x.get_destination(),
+                                      self.selected_piece.calculate_legal_moves(self.board)):
                 move = Move(self.board, self.selected_piece, self.position)
                 new_board = move.execute()
                 self.game_window.gameboard_panel.destroy()

@@ -1,11 +1,11 @@
 from engine.board.board_utils import NUM_TILES, NUM_TILES_PER_ROW
 from engine.board.tile import EmptyTile, OccupiedTile
-
-import engine.board.board as bd
+from engine.board.board import Builder
 
 
 class Move:
 
+    # Note that the board we pass to our Move constructor is the board the move is happening on prior to completion
     def __init__(self, board, moved_piece, destination):
         self.board = board
         self.moved_piece = moved_piece
@@ -28,7 +28,7 @@ class Move:
         return False
 
     def execute(self):
-        builder = bd.Builder()
+        builder = Builder()
 
         if self.moved_piece.get_color() == 'white':
             builder.set_color_to_move('black')
@@ -42,7 +42,7 @@ class Move:
 
         builder.set_tile(self.get_start(), EmptyTile(self.get_start()))
 
-        #TODO This is really bad form and needs to eventually be fixed
+        # TODO: This is really bad form and needs to eventually be fixed
         new_piece = self.moved_piece
         new_piece.is_first_move = False
         new_piece.position = self.get_destination()
@@ -67,7 +67,7 @@ class AttackingMove(Move):
 class PawnJump(Move):
 
     def execute(self):
-        builder = bd.Builder()
+        builder = Builder()
 
         if self.moved_piece.get_color() == 'white':
             builder.set_color_to_move('black')
@@ -79,7 +79,7 @@ class PawnJump(Move):
 
         builder.set_tile(self.get_start(), EmptyTile(self.get_start()))
 
-        # TODO This is really bad form and needs to eventually be fixed
+        # TODO: This is really bad form and needs to eventually be fixed
         new_pawn = self.moved_piece
         new_pawn.is_first_move = False
         new_pawn.position = self.get_destination()
@@ -112,7 +112,7 @@ class KingsideCastlingMove(Move):
         return self.rook_destination
 
     def execute(self):
-        builder = bd.Builder()
+        builder = Builder()
 
         if self.moved_king.get_color() == 'white':
             builder.set_color_to_move('black')
@@ -124,7 +124,7 @@ class KingsideCastlingMove(Move):
         for tile in self.board.board_tiles:
             builder.set_tile(tile.get_position(), tile)
 
-        #TODO This is still really bad form
+        # TODO: This is still really bad form
         builder.set_tile(self.get_king_start(), EmptyTile(self.get_king_start()))
         new_king = self.moved_king
         new_king.is_first_move = False
@@ -165,7 +165,7 @@ class QueensideCastlingMove(Move):
         return self.rook_destination
 
     def execute(self):
-        builder = bd.Builder()
+        builder = Builder()
 
         if self.moved_king.get_color() == 'white':
             builder.set_color_to_move('black')
@@ -177,7 +177,7 @@ class QueensideCastlingMove(Move):
         for tile in self.board.board_tiles:
             builder.set_tile(tile.get_position(), tile)
 
-        # TODO This is still really bad form
+        # TODO: This is still really bad form
         builder.set_tile(self.get_king_start(), EmptyTile(self.get_king_start()))
         new_king = self.moved_king
         new_king.is_first_move = False
@@ -203,7 +203,7 @@ class EnPassantMove(AttackingMove):
         self.attacked_pawn = attacked_pawn
 
     def execute(self):
-        builder = bd.Builder()
+        builder = Builder()
 
         if self.moved_king.get_color() == 'white':
             builder.set_color_to_move('black')
