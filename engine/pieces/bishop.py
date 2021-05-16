@@ -48,7 +48,7 @@ class Bishop(Piece):
     @staticmethod
     def _is_first_column_exclusion(position, offset):
         if FIRST_COLUMN[position]:
-            if offset in [7, -9]:
+            if offset in [-9, 7]:
                 return True
         return False
 

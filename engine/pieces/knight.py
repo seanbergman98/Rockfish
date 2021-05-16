@@ -1,6 +1,5 @@
 from engine.pieces.piece import Piece
 from engine.board.move import Move, AttackingMove
-from engine.board.board import Board, Builder
 from engine.board.board_utils import FIRST_ROW, SECOND_ROW, SEVENTH_ROW, EIGHTH_ROW, FIRST_COLUMN, SECOND_COLUMN, \
     SEVENTH_COLUMN, EIGHTH_COLUMN
 
